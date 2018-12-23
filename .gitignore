@@ -1,0 +1,6 @@
+lib/
+venv/
+src/config/config.py
+src/config/course-watch-utility-adminsdk.json
+.idea/
+*.pyc

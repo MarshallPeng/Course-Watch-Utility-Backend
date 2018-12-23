@@ -1,0 +1,18 @@
+Hello,
+
+There's been an update on your course watch request for [subj] [number] with [prof] at period: [period]
+As of right now, there are [enrl] people enrolled in class with a limit of [lim].
+
+Go sign up now before someone else does. I'm gonna stop tracking this course now.
+Remake another request if you didn't sign up in time.
+
+CRN: [crn]
+
+   ___ ___  _   _ _ __ ___  ___
+  / __/ _ \| | | | '__/ __|/ _ \
+ | (_| (_) | |_| | |  \__ \  __/
+  \___\___/ \__,___|  |___/\___|
+  __      ____ _| |_ ___| |__
+  \ \ /\ / / _` | __/ __| '_ \
+   \ V  V / (_| | || (__| | | |
+    \_/\_/ \__,_|\__\___|_| |_|

@@ -1,0 +1,4 @@
+cron:
+- description: "check courses"
+  url: /api/check_courses
+  schedule: every 20 minutes
