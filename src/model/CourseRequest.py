@@ -19,7 +19,7 @@ class CourseRequest:
         Creates an ID to used in firebase database
         :return:
         """
-        self.id = str(self.subj) + "-" + str(self.number) + "-" + str(self.prof) + "-" + str(self.period) + "-" + str(self.email).replace(".", "-")
+        self.id = (str(self.subj) + "-" + str(self.number) + "-" + str(self.prof) + "-" + str(self.period) + "-" + str(self.email)).replace(".", "-")
 
     def toJSON(self):
         import json
