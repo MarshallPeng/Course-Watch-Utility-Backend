@@ -3,6 +3,7 @@ import requests
 import requests_toolbelt.adapters.appengine
 requests_toolbelt.adapters.appengine.monkeypatch()
 import logging
+from src.exception.CourseNotFoundException import CourseNotFoundException
 
 class TimetableService:
     """
@@ -30,7 +31,12 @@ class TimetableService:
         for index, name in enumerate(column_names):
                 column_name_to_index[index] = name
 
-        row_data = row_data.next_sibling.next_sibling.next_sibling.next_sibling
+        try:
+            row_data = row_data.next_sibling.next_sibling.next_sibling.next_sibling
+        except Exception:
+            logging.info("Could not find course. Possibly removed from timetable")
+            raise CourseNotFoundException("Could not find course. Possibly removed from timetable")
+
 
         # parse row data, store in dictionary
         while row_data:

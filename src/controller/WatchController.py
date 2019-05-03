@@ -31,12 +31,12 @@ class WatchController:
 
         except InvalidRequestException as e:
             response = self.response_util.build_error_response(code=400, message="Course request not valid: " + e.message)
-            logging.info(e.message)
+            logging.warning(e.message)
             return response
 
         except Exception as e:
             response = self.response_util.build_error_response(code=400, message="An Error Occurred: " + e.message)
-            logging.info(e.message)
+            logging.error(e.message)
             return response
 
 
@@ -61,6 +61,8 @@ class WatchController:
                 lim = current_course_status["Lim"]
                 crn = "CRN"         # CRN is removed from timetable during the term
 
+                # TODO: Fix error where enrl doesn't exist / CRN doesn't exist cuz registration hasn't opened.
+                # TODO: Need to detect when course registration has opened. Possibly deny at time of request.
                 if (current_course_status.has_key('CRN')):
                     crn = current_course_status['CRN']
 
@@ -75,7 +77,7 @@ class WatchController:
 
         except Exception as e:
             response = self.response_util.build_error_response(code=400, message="An Error Occurred: " + e.message)
-            logging.info(e.message)
+            logging.error(e.message)
             return response
 
         return self.response_util.build_success_response(code = 200, message="Finished Checking Courses", data={"openings": openings_detected})
