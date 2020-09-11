@@ -5,6 +5,7 @@ from src.service.TimetableService import TimetableService
 from src.exception.InvalidRequestException import InvalidRequestException
 import json
 
+
 class RequestStorageService:
     """
     Service to handle retrival and storage of course watch requests
@@ -15,16 +16,18 @@ class RequestStorageService:
         self.authclient = FirebaseAuthClient()
         self.timetable_service = TimetableService()
 
-    def add_course_request(self, course):
-        if not self.dbclient.course_exists(course):
-            self.dbclient.add_course(course)
+    def add_course_request(self, course, user):
+        if not self.dbclient.course_exists(course, user):
+            self.dbclient.add_course(course, user)
 
-    def get_requests(self):
-        return self.dbclient.get_all_courses()
+    def get_requests_for_user(self, user):
+        return self.dbclient.get_courses_for_user(user)
 
+    def get_users(self):
+        return self.dbclient.get_all_users()
 
-    def delete_request(self, course):
-        self.dbclient.delete_course(course)
+    def delete_request(self, course, user):
+        self.dbclient.delete_course(course, user)
 
     def is_valid_request(self, course):
         """
@@ -43,8 +46,9 @@ class RequestStorageService:
         if course.period not in proper_subjects["Period"]:
             raise InvalidRequestException("Period does not exist: " + course.period)
 
-        if not self.authclient.is_valid_user(course.email):
-            raise InvalidRequestException("User {0} is not Authorized. Just PM me and I'll add you".format(course.email))
+        # if not self.authclient.is_valid_user(course.email):
+        #     raise InvalidRequestException(
+        #         "User {0} is not Authorized. Just PM me and I'll add you".format(course.email))
 
         # Check if the course exists. Do the other stuff before because don't want to connect to timetable too much
         if self.timetable_service.get_course_data(course_request=course) is None:

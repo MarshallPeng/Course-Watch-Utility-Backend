@@ -1,9 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 import requests_toolbelt.adapters.appengine
+
 requests_toolbelt.adapters.appengine.monkeypatch()
 import logging
 from src.exception.CourseNotFoundException import CourseNotFoundException
+
 
 class TimetableService:
     """
@@ -20,7 +22,8 @@ class TimetableService:
         # get page source and create parser
         logging.info("Making POST request for " + str(course_request))
         search_results = requests.post('http://oracle-www.dartmouth.edu/dart/groucho/timetable.course_quicksearch',
-                             data={'subj': course_request.subj, 'crsenum': course_request.number, "classyear": "2008"}).text
+                                       data={'subj': course_request.subj, 'crsenum': course_request.number,
+                                             "classyear": "2008"}).text
 
         soup = BeautifulSoup(search_results, 'html.parser')
         row_data = soup.find("div", {"class": "data-table"}).tr
@@ -29,14 +32,13 @@ class TimetableService:
         # get table data (mainly column names)
         column_name_to_index = {}
         for index, name in enumerate(column_names):
-                column_name_to_index[index] = name
+            column_name_to_index[index] = name
 
         try:
             row_data = row_data.next_sibling.next_sibling.next_sibling.next_sibling
         except Exception:
             logging.info("Could not find course. Possibly removed from timetable")
             raise CourseNotFoundException("Could not find course. Possibly removed from timetable")
-
 
         # parse row data, store in dictionary
         while row_data:
@@ -54,7 +56,6 @@ class TimetableService:
         logging.info("Could not find course.")
         return None
 
-
     def request_matches_course(self, course_timetable, course_request):
         """
         Checks if a request matches a course
@@ -62,8 +63,7 @@ class TimetableService:
         :param course_request: course data from request
         :return:
         """
-
         return course_timetable["Subj"] == course_request.subj and \
-            float(course_timetable["Num"]) == float(course_request.number) and \
-            course_timetable["Period"] == course_request.period and \
-            course_request.prof.lower() in course_timetable["Instructor"].lower()
+               float(course_timetable["Num"]) == float(course_request.number) and \
+               course_timetable["Period Code"] == course_request.period and \
+               course_request.prof.lower() in course_timetable["Instructor"].lower()
