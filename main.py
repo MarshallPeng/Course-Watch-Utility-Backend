@@ -3,7 +3,6 @@ import json
 
 from src.controller.WatchController import WatchController
 
-
 app = Flask(__name__)
 
 
@@ -14,6 +13,7 @@ def add_new_request():
     result = controller.new_request(data)
     return result
 
+
 @app.route('/api/check_courses')
 def check_courses():
     controller = WatchController()
@@ -21,13 +21,13 @@ def check_courses():
     return result
 
 
-@app.route('/api/current_requests')
+@app.route('/api/current_requests', methods=['POST', 'OPTIONS'])
 def current_courses():
+    data = json.loads(request.data)
     controller = WatchController()
-    result = controller.get_current_requests()
+    result = controller.get_current_requests(data)
     return result
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
