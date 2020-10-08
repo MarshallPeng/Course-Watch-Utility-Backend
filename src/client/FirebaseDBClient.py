@@ -1,15 +1,14 @@
+import json
+import logging
+
 import firebase_admin
 from firebase_admin import db, credentials
 
 from src.config.config import FirebaseConfig
 from src.model.CourseRequest import CourseRequest
-import json
-import logging
-
-from src.model.User import User
 
 
-class FirebaseDBClient():
+class FirebaseDBClient:
     """
     Client to get, add, remove, courses from firebase.
     """
@@ -51,3 +50,6 @@ class FirebaseDBClient():
             return []
         else:
             return [key for key in dict(users_dicts)]
+
+    def clear_requests(self):
+        self.db.child('users/').delete()

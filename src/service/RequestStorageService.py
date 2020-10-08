@@ -29,6 +29,9 @@ class RequestStorageService:
     def delete_request(self, course, user):
         self.dbclient.delete_course(course, user)
 
+    def clear_requests(self):
+        self.dbclient.clear_requests()
+
     def is_valid_request(self, course):
         """
         Handles some basic input validation.

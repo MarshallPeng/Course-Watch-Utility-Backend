@@ -6,6 +6,7 @@ from src.model.CourseRequest import CourseRequest
 from src.util.ResponseUtil import ResponseUtil
 from src.exception.InvalidRequestException import InvalidRequestException
 import logging
+import datetime
 
 
 class WatchController:
@@ -92,7 +93,25 @@ class WatchController:
         :return:
         """
         logging.info("getting current requests for {0}".format(data))
-        user = User.fromJSON(data)
-        current_courses = self.request_service.get_requests_for_user(user)
-        data = [course.toJSON() for course in current_courses]
+        try:
+            user = User.fromJSON(data)
+            current_courses = self.request_service.get_requests_for_user(user)
+            data = [course.toJSON() for course in current_courses]
+        except Exception as e:
+            response = self.response_util.build_error_response(code=400, message="An Error Occurred: " + e.message)
+            return response
         return self.response_util.build_success_response(code=200, message="Retrieved current requests", data=data)
+
+    def reset_requests(self):
+        logging.info("Resetting course requests for the term")
+
+        if not datetime.datetime.today().day == 15 or not datetime.datetime.today().month in [2, 5, 7, 10]:
+            return self.response_util.build_error_response(code=200, message="Can't reset at this time. Good try tho :P")
+
+        try:
+            self.request_service.clear_requests()
+        except Exception as e:
+            response = self.response_util.build_error_response(code=400, message="An Error Occurred: " + e.message)
+            logging.error(e.message)
+            return response
+        return self.response_util.build_success_response(code=200, message="Courses Successfully Reset")

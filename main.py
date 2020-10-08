@@ -29,5 +29,12 @@ def current_courses():
     return result
 
 
+@app.route('/api/reset_courses')
+def reset_courses():
+    controller = WatchController()
+    result = controller.reset_requests()
+    return result
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -5,8 +5,8 @@ import logging
 import sendgrid
 from sendgrid.helpers.mail import *
 
-class NotificationService:
 
+class NotificationService:
     """
     Service to handle the sending of emails via Sendgrid
     """
@@ -31,7 +31,6 @@ class NotificationService:
                 .replace('[crn]', crn)
 
         return message
-
 
     def send_mail(self, course, enrl, lim, crn):
         """
