@@ -4,4 +4,4 @@ cron:
   schedule: every 10 minutes
 - description: "Reset courses middle of each term"
   url: /api/reset_courses
-  schedule: 15th of oct,feb,may,jul 09:00
+  schedule: 15 of oct,feb,may,jul 09:00
