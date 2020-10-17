@@ -105,7 +105,7 @@ class WatchController:
     def reset_requests(self):
         logging.info("Resetting course requests for the term")
 
-        if not datetime.datetime.today().day == 15 or not datetime.datetime.today().month in [2, 5, 7, 10]:
+        if not (datetime.datetime.today().day == 15 and datetime.datetime.today().month in [2, 5, 7, 10]):
             return self.response_util.build_error_response(code=400, message="Can't reset at this time. Good try tho :P")
 
         try:
