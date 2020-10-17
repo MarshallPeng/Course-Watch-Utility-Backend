@@ -106,6 +106,7 @@ class WatchController:
         logging.info("Resetting course requests for the term")
 
         if not (datetime.datetime.today().day == 15 and datetime.datetime.today().month in [2, 5, 7, 10]):
+            logging.info("Received course reset request at invalid time")
             return self.response_util.build_error_response(code=400, message="Can't reset at this time. Good try tho :P")
 
         try:
@@ -114,4 +115,4 @@ class WatchController:
             response = self.response_util.build_error_response(code=500, message="An Error Occurred: " + e.message)
             logging.error(e.message)
             return response
-        return self.response_util.build_success_response(code=200, message="Courses Successfully Reset")
+        return self.response_util.build_success_response(code=200, message="Courses Successfully Reset", data={})
